@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-
+import Authentication from './components/Authentication';
 function App() {
   const [data , setData]= useState("connecting....");
 
@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <div>
-        <h1>Status :{data} </h1>
+        <Authentication/>
       </div>
     </>
   )
