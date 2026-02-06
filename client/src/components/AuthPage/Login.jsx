@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Layers } from "lucide-react";
 import './Auth.css';
 
 export default function Login() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -24,13 +25,20 @@ export default function Login() {
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include', // Important: include cookies in request
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
             console.log("response from backend ", data);
-            setMessage(data.message);
+
+            if (data.message && data.message.includes('Successful')) {
+                navigate('/');
+            } else {
+                setMessage(data.message || data.Error || "Login failed");
+            }
         } catch (err) {
             console.log("Error", err);
+            setMessage("Login failed. Please try again.");
         }
     };
 
@@ -112,7 +120,7 @@ export default function Login() {
 
                 {/* Message */}
                 {message && (
-                    <div className={`message ${message.toLowerCase().includes('error') ? 'error' : 'success'}`}>
+                    <div className="message error">
                         {message}
                     </div>
                 )}

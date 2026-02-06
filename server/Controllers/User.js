@@ -1,5 +1,11 @@
 const User= require('../Model/User');
-const {setUser}= require('../Services/auth')
+const {setUser, getUser}= require('../Services/auth')
+
+function handleVerifyAuth(req, res) {
+    const token = req.cookies?.token;
+    const user = getUser(token);
+    return res.json({ authenticated: !!user });
+}
 
 async function handleUserSignup(req , res){
     const { name , email , password }= req.body;
@@ -33,4 +39,6 @@ async function handleUserLogin(req , res){
 module.exports={
     handleUserSignup,
     handleUserLogin,
+    handleVerifyAuth,
+    
 }
