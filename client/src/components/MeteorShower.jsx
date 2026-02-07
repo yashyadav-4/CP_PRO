@@ -56,7 +56,7 @@ const MeteorShower = () => {
                 this.length = Math.random() * 100 + 60;
                 this.thickness = Math.random() * 2 + 1.5;
                 this.opacity = Math.random() * 0.4 + 0.6;
-                this.fadeSpeed = Math.random() * 0.003 + 0.002;
+                this.fadeSpeed = Math.random() * 0.003 + 0.00002;
             }
 
             update(canvasH) {

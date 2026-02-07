@@ -7,7 +7,10 @@ export default function ProtectedRoute({ children }) {
     useEffect(() => {
         fetch('/api/auth/verify', { credentials: 'include' })
             .then(res => res.json())
-            .then(data => setIsAuthenticated(data.authenticated))
+            .then(data => {
+                console.log('verify response:' , data);
+                setIsAuthenticated(data.authenticated)
+            })
             .catch(() => setIsAuthenticated(false));
     }, []);
 

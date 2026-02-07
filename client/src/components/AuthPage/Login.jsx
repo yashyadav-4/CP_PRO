@@ -31,7 +31,7 @@ export default function Login() {
             const data = await response.json();
             console.log("response from backend ", data);
 
-            if (data.message && data.message.includes('Successful')) {
+            if (data.message && data.message.toLowerCase().includes('successful')) {
                 navigate('/');
             } else {
                 setMessage(data.message || data.Error || "Login failed");

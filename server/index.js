@@ -6,6 +6,7 @@ const User= require('./Model/User')
 const cookieParser= require('cookie-parser')
 const userRoute= require('./Routes/User')
 const {restrictToLoggedinUserOnly} = require('./Middlewares/auth')
+const cors= require('cors');
 
 // connection to mongo
 connectToMongoDb(process.env.MongoUrl)
@@ -16,6 +17,11 @@ connectToMongoDb(process.env.MongoUrl)
 const app= express();
 const port= process.env.port ? parseInt(process.env.port) : 5000;
 
+// cors is not in use currently
+app.use(cors({
+    origin:'http://localhost:5173',
+    credentials:true
+}))
 
 // prebuilt middlewares
 app.use(express.json());
@@ -23,7 +29,7 @@ app.use(express.urlencoded({ extended: false })); // for forms
 app.use(cookieParser());
 
 
-//Routes
+// public Routes
 app.use('/api/auth' , userRoute);
 
 
