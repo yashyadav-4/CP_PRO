@@ -3,7 +3,7 @@ require('dotenv').config();
 const {connectToMongoDb}= require('./connection')
 const cookieParser= require('cookie-parser')
 const userRoute= require('./Routes/User')
-const {restrictToLoggedinUserOnly} = require('./Middlewares/auth')
+const {verifyToken} = require('./Middlewares/auth')
 const cors= require('cors');
 
 // connection to mongo
@@ -33,7 +33,7 @@ app.use('/api/auth' , userRoute);
 
 
 // mine made middlewares
-app.use(restrictToLoggedinUserOnly);
+app.use(verifyToken);
 
 
 // test
