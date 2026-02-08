@@ -1,19 +1,58 @@
 /* Auth Page Styles */
 .auth-wrapper {
+    position: relative;
+    z-index: 10;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+    width: 100vw;
+    height: 100vh;
+    padding: 40px 60px;
+    gap: 40px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Right side branding */
+.auth-branding {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.auth-branding-logo {
+    font-size: 72px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -3px;
+    margin-bottom: 16px;
+    text-shadow: 0 0 60px rgba(255, 255, 255, 0.3);
+}
+
+.auth-branding-logo span {
+    color: #3b82f6;
+}
+
+.auth-branding-tagline {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
 }
 
 .auth-card {
+    flex-shrink: 0;
     background: linear-gradient(145deg, #0a0a0a 0%, #000000 100%);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 24px;
     padding: 40px;
-    width: 100%;
-    max-width: 420px;
+    width: 420px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
 }
 

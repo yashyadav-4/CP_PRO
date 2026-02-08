@@ -1,20 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
-export default function ProtectedRoute({ children }) {
-    const [isAuthenticated, setIsAuthenticated] = useState(null);
+export default function ProtectedRoute({children}){
+    const [isAuthenticated , setIsAuthenticated]= useState(null);
 
-    useEffect(() => {
-        fetch('/api/auth/verify', { credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                console.log('verify response:' , data);
-                setIsAuthenticated(data.authenticated)
-            })
-            .catch(() => setIsAuthenticated(false));
-    }, []);
-
-    if (isAuthenticated === null) return null;
-    if (!isAuthenticated) return <Navigate to="/login" replace />;
+    useEffect(()=>{
+        fetch('/api/auth/verify', {credentials:'include'})
+            .then(res=>res.json())
+            .then(data=>setIsAuthenticated(data.authenticated))
+            .catch(()=>setIsAuthenticated(false));
+    } , [])
+    if(isAuthenticated==null) return null;
+    if(!isAuthenticated) return <Navigate to='/login' replace/>;
     return children;
 }

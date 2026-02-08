@@ -1,8 +1,6 @@
 const express= require('express');
-const mongoose= require('mongoose');
 require('dotenv').config();
 const {connectToMongoDb}= require('./connection')
-const User= require('./Model/User')
 const cookieParser= require('cookie-parser')
 const userRoute= require('./Routes/User')
 const {restrictToLoggedinUserOnly} = require('./Middlewares/auth')
@@ -16,6 +14,7 @@ connectToMongoDb(process.env.MongoUrl)
 
 const app= express();
 const port= process.env.port ? parseInt(process.env.port) : 5000;
+
 
 // cors is not in use currently
 app.use(cors({

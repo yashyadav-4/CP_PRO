@@ -1,15 +1,15 @@
-import { Outlet, NavLink, Link } from "react-router-dom";
-import MeteorShower from "./components/MeteorShower";
+import { Outlet } from "react-router-dom";
 import Header from './components/Header/Header'
+import Footer from "./components/Footer/Footer";
 
 function Layout() {
     return (
         <>
-            <MeteorShower />
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', minHeight: '100vh', zIndex: 10 }}>
-                <Header/>
+            <Header />
+            <main>
                 <Outlet />
-            </div>
+            </main>
+            <Footer/>
         </>
     )
 }
