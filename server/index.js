@@ -2,9 +2,10 @@ const express= require('express');
 require('dotenv').config();
 const {connectToMongoDb}= require('./connection')
 const cookieParser= require('cookie-parser')
-const userRoute= require('./Routes/User')
-const {verifyToken} = require('./Middlewares/auth')
 const cors= require('cors');
+const {verifyToken} = require('./Middlewares/auth')
+const userRoute= require('./Routes/User')
+const codeTemplateRoutes= require('./Routes/CodeTemplate')
 
 // connection to mongo
 connectToMongoDb(process.env.MongoUrl)
@@ -34,6 +35,10 @@ app.use('/api/auth' , userRoute);
 
 // mine made middlewares
 app.use(verifyToken);
+
+
+// codeTemplateRoutes
+app.use('/api/codeTemplate' , codeTemplateRoutes );
 
 
 // test
