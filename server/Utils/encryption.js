@@ -1,6 +1,4 @@
-// AES-256-GCM symmetric encryption for sensitive user data (e.g. LC session tokens).
-// ENCRYPTION_KEY must be a 64-character hex string (32 bytes) in the environment.
-// If the key is absent the feature is gracefully disabled — callers check isEnabled().
+
 const crypto = require('crypto');
 
 const ALGORITHM = 'aes-256-gcm';
@@ -12,18 +10,17 @@ function getKey() {
     catch { return null; }
 }
 
-/** Returns true when the encryption key is properly configured. */
 function isEnabled() { return !!getKey(); }
 
 /**
- * Encrypt a plaintext string.
+ * encrypt a plaintext string
  * @param {string} plaintext
  * @returns {{ iv: string, encryptedToken: string, authTag: string }} all hex-encoded
  */
 function encrypt(plaintext) {
     const key = getKey();
     if (!key) throw new Error('ENCRYPTION_KEY is not configured (must be 64 hex chars)');
-    const iv = crypto.randomBytes(12);                                         // 96-bit nonce
+    const iv = crypto.randomBytes(12);
     const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
     const enc = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()]);
     return {
@@ -34,7 +31,7 @@ function encrypt(plaintext) {
 }
 
 /**
- * Decrypt a previously encrypted payload.
+ * decrypt a previously encrypted payload
  * @param {{ iv: string, encryptedToken: string, authTag: string }} payload
  * @returns {string} plaintext
  */

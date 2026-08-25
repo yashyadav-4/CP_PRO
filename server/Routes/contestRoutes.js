@@ -1,6 +1,3 @@
-// Routes/contestRoutes.js
-// Read-only route — serves contests directly from MongoDB.
-// The contestSyncWorker populates and refreshes the DB every 6 hours.
 const express = require('express');
 const Contest = require('../Model/Contest');
 const Platform = require('../Model/Platform');
@@ -11,8 +8,8 @@ const { getCache, setCache } = require('../Utils/redisClient');
 
 const router  = express.Router();
 
-const WINDOW_BACK_MS    = 180 * 24 * 3600 * 1000; // 180 days back (6 months)
-const WINDOW_FORWARD_MS = 30 * 24 * 3600 * 1000; // 30 days forward
+const WINDOW_BACK_MS    = 180 * 24 * 3600 * 1000;//180 days
+const WINDOW_FORWARD_MS = 30 * 24 * 3600 * 1000;//30 days
 
 router.get('/', optionalAuth, async (req, res) => {
     try {
@@ -197,8 +194,6 @@ router.get('/', optionalAuth, async (req, res) => {
         return res.status(500).json({ error: 'Failed to load contests', message: err.message });
     }
 });
-
-// ── Custom Contests ─────────────────────────────────────────────────────────
 
 router.post('/custom', verifyToken, async (req, res) => {
     try {

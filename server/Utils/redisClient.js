@@ -16,11 +16,6 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
     console.warn('[Redis] UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN not found in .env. Redis caching is disabled.');
 }
 
-/**
- * Get a value from Redis
- * @param {string} key
- * @returns {Promise<any|null>} The parsed JSON value, or null if not found/disabled.
- */
 async function getCache(key){
     if(!redis) return null;
     try {
@@ -32,12 +27,6 @@ async function getCache(key){
     }
 }
 
-/**
- * Set a value in Redis with optional TTL.
- * @param {string} key
- * @param {any} value - Will be JSON stringified automatically by @upstash/redis
- * @param {number} [ttlSeconds] - Optional expiration in seconds
- */
 async function setCache(key, value, ttlSeconds = null){
     if(!redis) return;
     try{
@@ -51,10 +40,6 @@ async function setCache(key, value, ttlSeconds = null){
     }
 }
 
-/**
- * Delete a key from Redis.
- * @param {string} key
- */
 async function delCache(key){
     if(!redis) return;
     try{

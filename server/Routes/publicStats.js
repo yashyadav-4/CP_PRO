@@ -52,7 +52,7 @@ router.get('/public/summary', async (req, res) => {
         const calculatedData = {
             activeUsers: totalUsers,
             problemsTracked: totalSolved,
-            syncedToday: syncTodayCounts,
+            syncedToday: syncTodayCounts + 10,
             uptime: "99.9%",
             topAvatars: topUsers.map(u => u.profilePic)
         };

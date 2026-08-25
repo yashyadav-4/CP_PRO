@@ -6,7 +6,7 @@ const { getNotifications, markRead, markAllRead, clearRead } = require('../Contr
 router.use(verifyToken);
 
 router.get('/', getNotifications);
-router.patch('/read-all', markAllRead);          // must be before /:id/read
+router.patch('/read-all', markAllRead);
 router.patch('/:id/read', markRead);
 router.delete('/clear-read', clearRead);
 

@@ -32,7 +32,7 @@ async function recordDAU(userId) {
             await incrementDailyStat('activeUsers');
         }
     } catch (err) {
-        // Ignore duplicate key errors gracefully
+        
     }
 }
 

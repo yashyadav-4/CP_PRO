@@ -7,52 +7,34 @@ const { generateDailyProblems }      = require('../Services/dailyProblemService'
 const { generateOrFetchDailyTopic }  = require('../Services/dailyTopicService');
 const { getTodayIST }                = require('../Utils/dateUtils');
 
-// In-memory set to avoid firing multiple background jobs for same user
-// on the same server process within the same day.
-const warmupDone = new Map(); // userId -> dateStr
+const warmupDone = new Map(); //userId -> dateStr
 
-// Clear the map at midnight IST (5:30 UTC offset → ~18:30 UTC)
 setInterval(() => {
     const today = getTodayIST();
     for (const [uid, d] of warmupDone) {
         if (d !== today) warmupDone.delete(uid);
     }
-}, 60 * 60 * 1000); // cleanup every hour
+}, 60 * 60 * 1000); 
 
-/**
- * Middleware: on the user's first authenticated request of the day,
- * fire-and-forget background generation of daily problems + topic.
- * When both complete, send a combined notification.
- *
- * This is NON-BLOCKING — the middleware calls next() immediately.
- */
 function dailyWarmup(req, res, next) {
-    // Only run for authenticated users
     if (!req.user || !req.user._id) return next();
 
     const userId = req.user._id.toString();
     const today  = getTodayIST();
-
-    // Already warmed up today for this user?
     if (warmupDone.get(userId) === today) return next();
-
-    // Mark immediately so subsequent requests don't re-trigger
     warmupDone.set(userId, today);
-
-    // Fire-and-forget — don't await, don't block the response
     runWarmup(userId, today).catch(() => {});
 
     next();
 }
 
 async function runWarmup(userId, today) {
-    // Quick check: if both already exist, skip entirely
     const [existingProblems, existingTopic] = await Promise.all([
         DailyProblem.exists({ userId, date: today }),
         DailyTopic.exists({ userId, date: today }),
     ]);
 
-    if (existingProblems && existingTopic) return; // nothing to do
+    if (existingProblems && existingTopic) return;
 
     const results = { problems: null, topic: null };
     const tasks = [];
@@ -83,7 +65,7 @@ async function runWarmup(userId, today) {
 
     await Promise.allSettled(tasks);
 
-    // Build combined notification
+    //notification
     const parts = [];
     if (!existingProblems && results.problems && results.problems.status !== 'no_account_linked') {
         parts.push('problems');

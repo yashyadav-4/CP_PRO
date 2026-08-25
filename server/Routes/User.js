@@ -12,8 +12,7 @@ router.post('/logout' , handleLogOut);
 
 router.post('/change-password', handlePasswordChange);
 
-// Heartbeat: browser pings this every 60s while the tab is open.
-// verifyToken middleware updates lastLogin (throttled). No DB read needed.
+//pings browser tab every 60 seconds
 router.post('/heartbeat', verifyToken, handleHeartbeat);
 
 module.exports = router;
